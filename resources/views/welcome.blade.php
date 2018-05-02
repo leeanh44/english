@@ -79,15 +79,15 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Study English with Laravel
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="{{ url('/vocabulary') }}">Vocabularies</a>
+                    <a href="#">Listening</a>
+                    <a href="#">Speaking</a>
+                    <a href="#">Reading</a>
+                    <a href="#">Writing</a>
                 </div>
             </div>
         </div>
