@@ -14,6 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/search', function () {
+    return view('search');
+});
+Route::get('vocabulary/search', [ 'as' => 'vocabulary.search', 'uses' => 'VocabularyController@search']);
+
+Route::get('/find', function () {
+    return view('find');
+});
 
 Auth::routes();
 

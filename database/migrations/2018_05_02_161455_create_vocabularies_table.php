@@ -17,6 +17,7 @@ class CreateVocabulariesTable extends Migration
             $table->increments('id');
             $table->string('word');
             $table->string('pronunciation')->nullable();
+            $table->string('audio')->nullable();
             $table->text('explanation')->nullable();
             $table->string('picture')->nullable();
             $table->string('link_image')->nullable();

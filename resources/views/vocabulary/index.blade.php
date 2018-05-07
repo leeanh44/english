@@ -16,8 +16,12 @@
                     @foreach($vocabularies as $item)
                         <div class="popup">
                             <span style="text-transform: capitalize; font-weight: bold ;" onclick="myFunction(this)">{{ $item->word }}</span>
-                            <span> : {{ $item->pronunciation }}</span>
+                            <span> : {{ $item->pronunciation }} : </span>
+                            <a href="javascript:void(0)" onclick="play(this.id)" id="{{ $item->id }}">
+                                <span class="glyphicon glyphicon-volume-up"></span>
+                            </a>
                             <p>{{ $item->explanation }}</p>
+                            <audio id="audio-{{ $item->id }}" src="{{ $item->explanation }}"></audio>
                             <span class="popuptext" id="{{ $item->word }}">{{ $item->explanation }}</span>
                         </div><hr>
                     @endforeach
@@ -84,8 +88,11 @@
 <script>
     // When the user clicks on <div>, open the popup
     function myFunction(obj) {
-        var value = $(obj).text();
-        var popup = document.getElementById(value);
+        var popup = document.getElementById($(obj).text());
         popup.classList.toggle("show");
+    }
+    function play(obj){
+        var audio = document.getElementById("audio-" + obj);
+        audio.play();
     }
 </script>
