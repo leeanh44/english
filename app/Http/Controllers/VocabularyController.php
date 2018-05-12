@@ -10,7 +10,7 @@ use App\AdviceEngine\OxfordAdviceEngine\GetOxfordAdviceEngine;
 class VocabularyController extends Controller
 {
     /**
-     * Show the application dashboard.
+     * Index
      *
      * @return \Illuminate\Http\Response
      */
@@ -26,7 +26,7 @@ class VocabularyController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Store
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,17 +40,12 @@ class VocabularyController extends Controller
         if (!$data) {
             return view('vocabulary.create');
         }
-        $data = [
-            'word'          => $input['word'],
-            'pronunciation' => $input['pronunciation'],
-            'explanation'   => $input['explanation'],
-        ];
-        Vocabulary::create($data);
+        $this->insert($data['results'], $input['explanation']);
         return redirect(route('vocabulary.index'));
     }
 
     /**
-     * Show the application dashboard.
+     * Search and insert
      *
      * @return \Illuminate\Http\Response
      */
@@ -64,22 +59,68 @@ class VocabularyController extends Controller
         if (!$data) {
             return view('search');
         } else {
-            foreach ($data['results'] as $items) {
-                foreach ($items['lexicalEntries'] as $lexicalEntries) {
-                    foreach ($lexicalEntries['pronunciations'] as $pronunciation) {
-                        if (isset($pronunciation['audioFile'])) {
-                            $params = [
-                                'word'          => $items['word'],
-                                'pronunciation' => $pronunciation['phoneticSpelling'],
-                                'explanation'   => $pronunciation['audioFile'],
-                            ];
-                            Vocabulary::create($params);
-                            return redirect(route('vocabulary.index'));
-                        }
-                        continue;
+            return $this->insert($data['results']);
+        }
+    }
+
+    /**
+     * Insert
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function insert(array $data, string $explanation = null)
+    {
+        foreach ($data as $items) {
+            foreach ($items['lexicalEntries'] as $lexicalEntries) {
+                foreach ($lexicalEntries['pronunciations'] as $pronunciation) {
+                    if (isset($pronunciation['audioFile'])) {
+                        $params = [
+                            'word'          => $items['word'],
+                            'pronunciation' => $pronunciation['phoneticSpelling'],
+                            'explanation'   => $explanation,
+                            'audio'         => $pronunciation['audioFile'],
+                        ];
+                        Vocabulary::create($params);
+                        return redirect(route('vocabulary.index'));
                     }
+                    continue;
                 }
             }
+            return redirect(route('vocabulary.index'));
         }
+    }
+
+    /**
+     * Edit
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $word = Vocabulary::find($id);
+        return view('vocabulary.edit', compact('word'));
+    }
+
+    /**
+     * Show
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $word = Vocabulary::find($id);
+        return view('vocabulary.show', compact('word'));
+    }
+
+    /**
+     * Update
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $inputs = $request->only('explanation');
+        Vocabulary::where('id', $id)->update($inputs);
+        return redirect(route('vocabulary.index'));
     }
 }

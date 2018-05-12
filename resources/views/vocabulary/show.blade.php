@@ -27,17 +27,18 @@ input[type=submit]:hover {
 </style>
 @section('content')
 
-    <h3>New word</h3>
+    <h3>Detail word</h3>
 
     <div class="container">
-        <form action="{{ route('vocabulary.store') }}" method="POST" accept-charset="utf-8" id="form-create-vocabulary">{!! csrf_field() !!}
+        <form accept-charset="utf-8" id="form-edit-vocabulary">
             <label for="word">Word</label>
-            <input type="text" id="word" name="word" placeholder="Word..." required="true">
+            <input type="text" disabled value="{{ $word->word }}">
+
+            <label for="pronunciation">Pronunciation</label>
+            <input type="text" disabled value="{{ $word->pronunciation }}">
 
             <label for="explanation">Explanation</label>
-            <textarea id="explanation" name="explanation" placeholder="Explanation..." style="height:200px" required="true"></textarea>
-
-            <input type="submit" value="Submit">
+            <input type="text" disabled value="{{ $word->explanation }}">
         </form>
     </div>
 @endsection

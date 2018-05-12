@@ -15,14 +15,16 @@
                     @endif
                     @foreach($vocabularies as $item)
                         <div class="popup">
-                            <span style="text-transform: capitalize; font-weight: bold ;" onclick="myFunction(this)">{{ $item->word }}</span>
+                            <a href="{{ route('vocabulary.show', $item->id) }}">
+                                <span style="text-transform: capitalize; font-weight: bold ;">{{ $item->word }}</span>
+                            </a>
                             <span> : {{ $item->pronunciation }} : </span>
                             <a href="javascript:void(0)" onclick="play(this.id)" id="{{ $item->id }}">
                                 <span class="glyphicon glyphicon-volume-up"></span>
                             </a>
+                            <audio id="audio-{{ $item->id }}" src="{{ $item->audio }}"></audio>
                             <p>{{ $item->explanation }}</p>
-                            <audio id="audio-{{ $item->id }}" src="{{ $item->explanation }}"></audio>
-                            <span class="popuptext" id="{{ $item->word }}">{{ $item->explanation }}</span>
+                            <a href="{{ route('vocabulary.edit', $item->id) }}" style="background-color: #4c81af; color: white; padding: 5px; border-radius: 4px; cursor: pointer;">Explantion</a>
                         </div><hr>
                     @endforeach
                 </div>

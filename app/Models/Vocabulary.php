@@ -12,6 +12,6 @@ class Vocabulary extends Model
      * @var array
      */
     protected $fillable = [
-        'word', 'pronunciation', 'explanation',
+        'word', 'pronunciation', 'explanation', 'audio'
     ];
 }
